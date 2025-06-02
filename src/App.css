@@ -1,0 +1,28 @@
+@import "tailwindcss";
+
+body {
+  @apply font-sans text-black;
+}
+
+/* Smooth transitions for interactive elements */
+button, a, input, select {
+  @apply transition-all duration-200 ease-in-out;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+/* ::-webkit-scrollbar-track {
+  @apply bg-accent;
+} */
+
+/* ::-webkit-scrollbar-thumb {
+  @apply bg-primary-light rounded-full;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  @apply bg-primary;
+} */
