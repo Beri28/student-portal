@@ -20,7 +20,7 @@ const Home = () => {
     try {
       const res=await fetchResults(user?.studentId,semester==='first'?'1':'2')
       console.log(res)
-      setResults([{...res,name:user?.name,matricule:user?.studentId}])
+      setResults([{...res.data.results,name:user?.name,matricule:user?.studentId}])
       user && setUser({...user,results:{...res.data.results,name:user?.name,matricule:user?.studentId}})
       setIsLoading(false);
     } catch (error) {
