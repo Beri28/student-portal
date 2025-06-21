@@ -39,7 +39,7 @@ interface componentProps {
   const ResultsView=({results}:{results:Results})=>{
     console.log(results)
     return (
-      <div className="max-w-5xl mx-auto p-6 bg-white font-sans">
+      <div className="max-w-5xl mx-auto md:p-6 py-6 bg-white font-sans">
         {/* Header Section */}
         <div className="mb-4 flex items-center gap-x-4 w-full overflow-auto">
           <div className="space-y-2 mb-4 flex-1">
