@@ -5,12 +5,14 @@ import { ArrowDownward, ArrowDropDown, ExpandMore } from '@mui/icons-material';
 import Results2, { Results } from './Results2';
 import { useAuth } from '../context/AuthContext';
 import { fetchResults } from '../services/api';
+import ErrorMessage from '../components/ErrorMessage';
 
 const Home = () => {
   const {user,setUser}=useAuth()
   const [academicYear, setAcademicYear] = useState('2024/2025');
   const [semester, setSemester] = useState('first');
   const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState('');
   const [resultsPublished, setResultsPublished] = useState(true);
   const [results,setResults]=useState<Results[]>(user?.results && [user?.results] || [])
   const handleGetResults = async() => {
@@ -18,11 +20,12 @@ const Home = () => {
     try {
       const res=await fetchResults(user?.studentId,semester==='first'?'1':'2')
       console.log(res)
-      setResults([{...res.data.results,name:user?.name,matricule:user?.studentId}])
+      setResults([{...res,name:user?.name,matricule:user?.studentId}])
       user && setUser({...user,results:{...res.data.results,name:user?.name,matricule:user?.studentId}})
       setIsLoading(false);
     } catch (error) {
       console.log(error)
+      setError( "Couldn't get results. Please try again.");
       setIsLoading(false);
     }
   };
@@ -30,7 +33,7 @@ const Home = () => {
   return (
     <div>
       <Header />
-      <div className="sm:max-w-[90%] max-w-[95%] mx-auto p-10 bg-white rounded-lg shadow-md mt-12">
+      <div className="sm:max-w-[90%] max-w-[95%] mx-auto md:p-10 px-6 bg-white rounded-lg shadow-md mt-12">
         <p className="text-lg font-medium text-gray-800 mb-6 bg-blue-100 p-5 rounded-md">
          {user?.name} Select academic year and semester to get results
         </p>
@@ -70,7 +73,7 @@ const Home = () => {
             </Select>
           </div>
         </div>
-
+        {error && <ErrorMessage message={error} />}
         <button
           onClick={handleGetResults}
           disabled={isLoading}
@@ -91,9 +94,10 @@ const Home = () => {
         } */}
         {!isLoading && resultsPublished &&
           <div className="space-y-4 mt-4">
+            {results.length>0 && 
             <p className=" font-medium text-gray-800 bg-green-50 p-5 rounded-md">
               Resently published results
-            </p>
+            </p>}
             <Results2 results={results[0]} />
             {/* <Accordion className='my-4 py-2' expanded={true} >
               <AccordionSummary expandIcon={<ExpandMore />} > <p className=" font-medium text-gray-800">Results for {semester}</p> </AccordionSummary>
