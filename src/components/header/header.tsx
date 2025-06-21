@@ -1,12 +1,14 @@
 import React, { useState } from 'react';
-import { Avatar, Box, Button, Chip, Divider, IconButton, MenuItem, Stack, Typography } from '@mui/material'
+import { Avatar, Box, Button, Chip, Divider, IconButton, MenuItem, Stack, Typography,Drawer, List, ListItem,ListItemText } from '@mui/material'
 import { Logout, Menu, Person } from '@mui/icons-material';
 import { useAuth } from '../../context/AuthContext';
 import { Link, useNavigate } from 'react-router-dom';
+import {} from '@mui/icons-material/Menu'
 
 const Header: React.FC = () => {
   const {user,isAuthenticated,logout}=useAuth()
   const [menu,setMenu]=useState<boolean>(false)
+  const [menu2,setMenu2]=useState<boolean>(false)
   const navigate=useNavigate()
   return (
     <header className="bg-[#1b7dd0] text-white">
@@ -22,7 +24,7 @@ const Header: React.FC = () => {
               <h1 className="sm:text-2xl text-xl  font-heading font-bold  text-ellipsis">Student Results Portal</h1>
             </div>
           </div>
-          <IconButton sx={{display:{sm:'none'}}}>
+          <IconButton sx={{display:{sm:'none'}}} onClick={()=>{setMenu(!menu)}} >
             <Menu className='text-white ' />
           </IconButton>
           <div className="hidden md:flex items-center space-x-16">
@@ -63,6 +65,26 @@ const Header: React.FC = () => {
               <Link to='/login' style={{textDecoration:'none',color:'black'}}>Login</Link>
             </Button>
             }
+            <Drawer anchor='right' open={menu} sx={{display:{sm:'none',xs:'flex'}}} onClose={()=>setMenu(false)} >
+              <Stack spacing={1} padding={5} sx={{height:'100%'}} >
+                {isAuthenticated &&
+                  <Typography sx={{display:'flex',alignItems:'center',columnGap:'.45em',color:'black'}}>
+                      <Avatar sx={{width:30,height:30,fontSize:''}} >{user?.name[0]}</Avatar>{user?.name}
+                  </Typography>
+                }
+                <Divider />
+                <MenuItem sx={{color:'black'}} onClick={()=>{
+                  setMenu(false)
+                  navigate('/')
+                }} >Home</MenuItem>
+                <Divider />
+                {isAuthenticated &&
+                  <Button variant='outlined' color='inherit' sx={{color:'black'}} onClick={logout}>
+                    <Logout className='text-black ' />  Logout
+                  </Button>
+                }
+              </Stack>
+            </Drawer>
           </div>
         </div>
       </div>
