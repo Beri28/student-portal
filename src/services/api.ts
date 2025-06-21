@@ -1,6 +1,7 @@
 import { StudentResult, User } from '../types/types';
 
 // const API_BASE_URL = 'http://localhost:5000/api/v1'; // This will be proxied to your backend
+const BASE_URL = 'http://localhost:5000/api/v1'; // This will be proxied to your backend
 const API_BASE_URL = 'https://student-portal-backend-vcfj.onrender.com/api/v1'; // This will be proxied to your backend
 
 export const fetchResults = async (studentId?: string, semester?: string): Promise<any> => {
